@@ -259,4 +259,19 @@ window.onload = () => {
   document.getElementById("turnOverlay").style.display = "flex";
 
   gameLoop();
+
+  // 🎯 Clic en el círculo para acertar
+  document.getElementById("aimCircle").addEventListener("click", () => {
+    aimConfirmed = true;
+    willFail = false;
+    aiming = false;
+    document.getElementById("aimCircle").style.display = "none";
+    clearTimeout(aimTimeout);
+
+    // Sonido opcional al acertar
+    if (typeof aimHitSound !== "undefined") aimHitSound.play();
+
+    resumeGame();
+  });
+  
 };

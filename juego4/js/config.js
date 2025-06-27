@@ -65,3 +65,6 @@ function toggleAudio() {
 const audioGoal = new Audio("assets/sounds/gol.mp3");
 const audioFail = new Audio("assets/sounds/fail_kick.mp3");
 
+const aimHitSound = new Audio("assets/sounds/aim_hit.mp3"); // crea el archivo si quieres
+
+
