@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="screen-orientation" content="landscape" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>PokéGol: Pikachu Chuta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -16,21 +18,38 @@
 </div>
 <div id="turnMessage">Turno de Pikachu</div>
 
-  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <div id="canvas-container">
+  <canvas id="gameCanvas"></canvas>
+</div>
+
   <div id="controls">
     <button id="kickButton">⚽ Chutar</button>
     <button id="resetButton">♻ Reintentar</button>
   </div>
+
+  <div id="audioControls">
+  <button id="audioToggle">🔊 Audio ON</button>
+</div>
+
 
   <div id="turnOverlay" class="overlay">
   <div id="turnText">Turno de Pikachu</div>
   <button id="continueButton">Continuar</button>
 </div>
 
+<div id="aimCircle"></div>
+
 
   <script src="js/config.js"></script>
   <script src="js/sprites.js"></script>
   <script src="js/effects.js"></script>
+    <script src="js/responsive.js"></script>
   <script src="js/game.js"></script>
+
+  <div id="rotateNotice">
+  🔄 Gira tu dispositivo a horizontal para jugar
+</div>
+
+
 </body>
 </html>
