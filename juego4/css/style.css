@@ -37,6 +37,7 @@ canvas {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  z-index: 50;
 }
 
 button {
@@ -121,14 +122,6 @@ button:hover {
 
 /* 👇 Adaptación a orientación vertical */
 @media (orientation: portrait) {
-  #canvas-container,
-  #controls,
-  #scoreboard,
-  #goalMessage,
-  #turnMessage {
-    display: none !important;
-  }
-
   body::before {
     content: "Gira tu dispositivo para jugar 🌀";
     display: flex;
@@ -140,8 +133,22 @@ button:hover {
     background-color: #1e90ff;
     text-align: center;
     padding: 2rem;
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+  }
+
+  /* 🚫 Elimina cualquier display: none !important en los IDs */
+  /* Deja que JavaScript controle su visibilidad con .style.display */
+
+  #rotateNotice {
+    display: flex !important;
   }
 }
+
+
 
 #rotateNotice {
   position: fixed;
