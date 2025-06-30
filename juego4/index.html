@@ -3,53 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="screen-orientation" content="landscape" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>PokéGol: Pikachu Chuta</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <div id="goalMessage">⚽ ¡GOOOOOL! ⚽</div>
-<div id="scoreboard">
-  <span id="scoreLeft">0</span>
-  <span> - </span>
-  <span id="scoreRight">0</span>
+  <!-- Pantalla de selección de Pokémon -->
+<div id="selectionScreen">
+  <h2>Elige tu Pokémon</h2>
+  <div id="cardOptions">
+    <img src="assets/carta_pikachu.png" class="selectable-card" data-character="pikachu" />
+    <img src="assets/carta_arceus.png" class="selectable-card" data-character="arceus" />
+    <img src="assets/carta_gyarados.png" class="selectable-card" data-character="gyarados" />
+  </div>
 </div>
-<div id="turnMessage">Turno de Pikachu</div>
+
+
+  <div id="goalMessage">⚽ ¡GOOOOOL! ⚽</div>
+
+  <div id="scoreboard">
+    <span id="scoreLeft">0</span>
+    <span> - </span>
+    <span id="scoreRight">0</span>
+  </div>
+
+  <div id="turnMessage">Turno de Pikachu</div>
 
   <div id="canvas-container">
-  <canvas id="gameCanvas"></canvas>
-</div>
+    <canvas id="gameCanvas"></canvas>
+  </div>
 
+<div id="buttonPanel">
   <div id="controls">
     <button id="kickButton">⚽ Chutar</button>
     <button id="resetButton">♻ Reintentar</button>
   </div>
-
   <div id="audioControls">
-  <button id="audioToggle">🔊 Audio ON</button>
+    <button id="audioToggle">🔊 Audio ON</button>
+  </div>
 </div>
 
 
   <div id="turnOverlay" class="overlay">
-  <div id="turnText">Turno de Pikachu</div>
-  <button id="continueButton">Continuar</button>
-</div>
-
-<div id="aimCircle"></div>
-
-
-  <script src="js/config.js"></script>
-  <script src="js/sprites.js"></script>
-  <script src="js/effects.js"></script>
-    <script src="js/responsive.js"></script>
-  <script src="js/game.js"></script>
+    <div id="turnText">Turno de Pikachu</div>
+    <button id="continueButton">Continuar</button>
+  </div>
 
   <div id="rotateNotice">
-  🔄 Gira tu dispositivo a horizontal para jugar
-</div>
+    🔄 Gira tu dispositivo a horizontal para jugar
+  </div>
 
+  <!-- Importa el juego como módulo -->
+  <script type="module" src="js/main.js"></script>
 
 </body>
 </html>

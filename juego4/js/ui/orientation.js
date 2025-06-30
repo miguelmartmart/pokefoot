@@ -1,4 +1,5 @@
-function checkOrientation() {
+// ui/orientation.js
+export function checkOrientation() {
   const isPortrait = window.innerHeight > window.innerWidth;
   const rotateNotice = document.getElementById("rotateNotice");
   const mainUI = [
@@ -23,7 +24,5 @@ function checkOrientation() {
   }
 }
 
-
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
-window.addEventListener("load", checkOrientation);
