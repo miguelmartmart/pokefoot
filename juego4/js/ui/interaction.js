@@ -92,14 +92,22 @@ function endPause(success) {
   state.willFail = isPlayerTurn ? !success : success;
 
   state.paused = false;
-  state.kicking = true; // permite que continue updateBall()
+  state.kicking = true; // ✅ permite que continúe updateBall()
 
-  // 🎧 Reproduce efecto de sonido justo antes del efecto visual
-  if (state.currentTurn === "gyarados") {
+  // 🔊 Reproducir sonido especial según personaje actual
+  const character = state.currentTurn;
+
+  if (character === "gyarados") {
     audio.wave.currentTime = 0;
     audio.wave.play().catch(err => console.warn("No se pudo reproducir ola_sound:", err));
   }
 
-  // 🎬 Lanza el efecto visual
+  if (character === "eevee") {
+    audio.air.currentTime = 0;
+    audio.air.play().catch(err => console.warn("No se pudo reproducir aire_sound:", err));
+  }
+
+  // 🎬 Lanza el efecto visual asociado al personaje actual
   triggerEffect();
 }
+

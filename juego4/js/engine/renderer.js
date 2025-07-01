@@ -10,6 +10,7 @@ function shouldFreeze(character) {
 export function drawBackground() {
   ctx.clearRect(0, 0, 800, 400);
 }
+
 function drawCharacter(character) {
   const p = state[character];
   if (!p) return;
@@ -20,19 +21,22 @@ function drawCharacter(character) {
   const img = sprites[character];
 
   const isPlayer = character === state.playerCharacter;
-  const shouldFlip = (character === "gyarados" && isPlayer)
-                  || (character === "arceus" && isPlayer)
-                  || (character === "pikachu" && !isPlayer);
+
+  // ✅ Nueva lógica: invertir imagen si personaje jugador está a la izquierda
+  const shouldFlip =
+    (["gyarados", "arceus", "eevee"].includes(character) && isPlayer) ||
+    (character === "pikachu" && !isPlayer);
 
   ctx.save();
 
   if (shouldFlip) {
     ctx.translate(p.x + fw * scale, p.y);
-    ctx.scale(-1, 1); // invertir horizontalmente
+    ctx.scale(-1, 1); // Invertir horizontalmente
   } else {
     ctx.translate(p.x, p.y);
   }
 
+  // ❄️ Congelar en frame 2 si el personaje ha parado
   if (shouldFreeze(character)) {
     p.frame = 2;
   }
@@ -48,7 +52,7 @@ function drawCharacter(character) {
 
   ctx.restore();
 
-  // Animación
+  // 🎞️ Animación de golpeo o idle
   if (state.kicking && state.currentTurn === character && !state.kickDone) {
     p.tick++;
     if (p.tick % 10 === 0) {
@@ -66,7 +70,6 @@ function drawCharacter(character) {
     }
   }
 }
-
 
 export function drawBall() {
   const b = state.ball;

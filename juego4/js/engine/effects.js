@@ -8,7 +8,7 @@ import { state } from "../core/state.js";
 // ============================
 let effectFrame = 0;
 let effectTimer = 0;
-const frameDelay = 3; // Tiempo entre frames de animación
+const frameDelay = 5; // Tiempo entre frames de animación
 
 // ============================
 // Iniciar efecto visual
@@ -26,7 +26,10 @@ export function triggerEffect() {
 export function drawEffect() {
   if (!state.showEffect) return;
 
-  const character = state.currentTurn;
+  const character = state.currentTurn === state.playerCharacter
+  ? state.playerCharacter
+  : state.rivalCharacter;
+
   const ball = state.ball;
 
   switch (character) {
@@ -74,16 +77,16 @@ export function drawEffect() {
 
     // Gyarados → ola
     case "gyarados": {
-      const fw = 64; // Frame width
-      const fh = 222; // Frame height
-      const scale = 1.5; // 🔧 Cambia este valor para escalar ola
+      const fw = 73; // Frame width
+      const fh = 100; // Frame height
+      const scale = 2; // 🔧 Cambia este valor para escalar ola
 
       const displayW = fw * scale;
       const displayH = fh * scale;
       const dx = ball.x - displayW / 2;
       const dy = ball.y - displayH + 40;
 
-      const flip = state.playerCharacter === "gyarados";
+      const flip = state.playerCharacter !== "gyarados";
 
       if (flip) {
         ctx.save(); // 🔹 Guardar el contexto actual del canvas
@@ -93,8 +96,8 @@ export function drawEffect() {
           sprites.wave, // Imagen fuente
           effectFrame * fw,
           0, // Coordenadas X,Y de corte (frame actual)
-          60,
-          100, // Tamaño del frame a recortar
+          fw,
+          fh, // Tamaño del frame a recortar
           -dx - displayW,
           dy, // Coordenadas invertidas para dibujar (¡atención al -dx!)
           displayW,
@@ -107,8 +110,8 @@ export function drawEffect() {
           sprites.wave,
           effectFrame * fw,
           0,
-          60,
-          100,
+          fw,
+          fh,
           dx,
           dy,
           displayW,
@@ -119,6 +122,56 @@ export function drawEffect() {
       if (advanceEffectFrame(8)) endEffect();
       break;
     }
+
+
+    
+    case "eevee": {
+  const fw = 222;     // Ancho de cada frame
+  const fh = 111;       // Alto de cada frame
+  const scale = 1.5;   // Escala visual del sprite
+
+  const displayW = fw * scale;
+  const displayH = fh * scale;
+
+  const dx = ball.x - displayW / 2;
+  const dy = ball.y - displayH + 40;
+
+  const row = 0;                   // ✅ Tercera fila (índice 2)
+  const sy = row * fh;             // Coordenada Y del sprite
+  const totalFrames = 6;           // Eevee tiene 7 frames en esta fila
+
+  // 🧠 Determinar si hay que hacer flip
+  const isPlayerTurn = state.currentTurn === state.playerCharacter;
+  const isPlayerEevee = state.playerCharacter === "eevee";
+  const flip = (isPlayerTurn && isPlayerEevee) || (!isPlayerTurn && state.rivalCharacter === "eevee");
+
+  if (flip) {
+    ctx.save();
+    ctx.scale(-1, 1);
+    ctx.drawImage(
+      sprites.aire,
+      effectFrame * fw, sy, fw, fh,
+      -dx - displayW, dy,
+      displayW, displayH
+    );
+    ctx.restore();
+  } else {
+    ctx.drawImage(
+      sprites.aire,
+      effectFrame * fw, sy, fw, fh,
+      dx, dy,
+      displayW, displayH
+    );
+  }
+
+  if (advanceEffectFrame(totalFrames)) endEffect();
+  break;
+}
+
+
+
+
+
 
     default:
       endEffect(); // Seguridad

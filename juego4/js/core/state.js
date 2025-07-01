@@ -10,8 +10,12 @@ export const POKEMON_PROFILES = {
     right: { x: 600, y: 120, frameWidth: 74, frameHeight: 80, frameY: 0, scale: 2 }
   },
   gyarados: {
-    left:  { x: 70, y: 100, frameWidth: 103, frameHeight: 105, frameY: 0, scale: 1.8 },
-    right: { x: 580, y: 100, frameWidth: 103, frameHeight: 105, frameY: 0, scale: 1.8 }
+    left:  { x: 70, y: 100, frameWidth: 112.3, frameHeight: 105, frameY: 0, scale: 1.8 },
+    right: { x: 530, y: 100, frameWidth: 112.3, frameHeight: 105, frameY: 0, scale: 1.8 }
+  },
+  eevee: {
+    left:  { x: 90, y: 180, frameWidth: 50.7, frameHeight: 49.5, frameY: 2, scale: 2 },
+    right: { x: 600, y: 180, frameWidth: 50.7, frameHeight: 49.5, frameY: 2, scale: 2 }
   }
 };
 
@@ -38,6 +42,7 @@ export function initState() {
   delete state.pikachu;
   delete state.arceus;
   delete state.gyarados;
+    delete state.eevee;
 
   const playerProfile = POKEMON_PROFILES[player].left;
   const rivalProfile = POKEMON_PROFILES[rival].right;
