@@ -2,6 +2,7 @@
 import { ctx } from "../core/canvas.js";
 import { sprites } from "../core/config.js";
 import { state } from "../core/state.js";
+import { audio } from "../core/config.js"; // ✅ esta línea faltaba
 
 // ============================
 // Control de animación
@@ -11,8 +12,8 @@ let effectTimer = 0;
 const frameDelay = 5; // Tiempo entre frames de animación
 
 // ============================
-// Iniciar efecto visual
-// ============================
+// Iniciar efecto visual + sonido
+// ============================// engine/effects.js
 export function triggerEffect() {
   state.showEffect = true;
   effectTimer = 0;
@@ -26,9 +27,10 @@ export function triggerEffect() {
 export function drawEffect() {
   if (!state.showEffect) return;
 
-  const character = state.currentTurn === state.playerCharacter
-  ? state.playerCharacter
-  : state.rivalCharacter;
+  const character =
+    state.currentTurn === state.playerCharacter
+      ? state.playerCharacter
+      : state.rivalCharacter;
 
   const ball = state.ball;
 
@@ -56,8 +58,8 @@ export function drawEffect() {
 
     // Arceus → kamehameha
     case "arceus": {
-      const fw = 260,
-        fh = 128;
+      const fw = 350,
+        fh = 100;
 
       ctx.drawImage(
         sprites.kame,
@@ -123,53 +125,143 @@ export function drawEffect() {
       break;
     }
 
-
-    
     case "eevee": {
-  const fw = 222;     // Ancho de cada frame
-  const fh = 111;       // Alto de cada frame
-  const scale = 1.5;   // Escala visual del sprite
+      const fw = 222; // Ancho de cada frame
+      const fh = 111; // Alto de cada frame
+      const scale = 1.5; // Escala visual del sprite
 
-  const displayW = fw * scale;
-  const displayH = fh * scale;
+      const displayW = fw * scale;
+      const displayH = fh * scale;
 
-  const dx = ball.x - displayW / 2;
-  const dy = ball.y - displayH + 40;
+      const dx = ball.x - displayW / 2;
+      const dy = ball.y - displayH + 40;
 
-  const row = 0;                   // ✅ Tercera fila (índice 2)
-  const sy = row * fh;             // Coordenada Y del sprite
-  const totalFrames = 6;           // Eevee tiene 7 frames en esta fila
+      const row = 0; // ✅ Tercera fila (índice 2)
+      const sy = row * fh; // Coordenada Y del sprite
+      const totalFrames = 6; // Eevee tiene 7 frames en esta fila
 
-  // 🧠 Determinar si hay que hacer flip
+      // 🧠 Determinar si hay que hacer flip
+      const isPlayerTurn = state.currentTurn === state.playerCharacter;
+      const isPlayerEevee = state.playerCharacter === "eevee";
+      const flip =
+        (isPlayerTurn && isPlayerEevee) ||
+        (!isPlayerTurn && state.rivalCharacter === "eevee");
+
+      if (flip) {
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(
+          sprites.aire,
+          effectFrame * fw,
+          sy,
+          fw,
+          fh,
+          -dx - displayW,
+          dy,
+          displayW,
+          displayH
+        );
+        ctx.restore();
+      } else {
+        ctx.drawImage(
+          sprites.aire,
+          effectFrame * fw,
+          sy,
+          fw,
+          fh,
+          dx,
+          dy,
+          displayW,
+          displayH
+        );
+      }
+
+      if (advanceEffectFrame(totalFrames)) endEffect();
+      break;
+    }
+
+    case "charmander": {
+      const fw = 80; // ancho de frame en fuego_sprite.png
+      const fh = 80; // alto
+      const scale = 1.7;
+
+      const displayW = fw * scale;
+      const displayH = fh * scale;
+      const dx = ball.x - displayW / 2;
+      const dy = ball.y - displayH + 40;
+
+      const isPlayerTurn = state.currentTurn === state.playerCharacter;
+      const flip =
+        (isPlayerTurn && state.playerCharacter === "charmander") ||
+        (!isPlayerTurn && state.rivalCharacter === "charmander");
+
+      if (flip) {
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(
+          sprites.fuego,
+          effectFrame * fw,
+          0,
+          fw,
+          fh,
+          -dx - displayW,
+          dy,
+          displayW,
+          displayH
+        );
+        ctx.restore();
+      } else {
+        ctx.drawImage(
+          sprites.fuego,
+          effectFrame * fw,
+          0,
+          fw,
+          fh,
+          dx,
+          dy,
+          displayW,
+          displayH
+        );
+      }
+
+      if (advanceEffectFrame(8)) endEffect(); // 8 frames
+      break;
+    }
+
+case "mewtwo": {
+  const fw = 260;
+  const fh = 128;
+  const dx = ball.x - fw / 2 + 10;
+  const dy = ball.y - fh + 20;
+
   const isPlayerTurn = state.currentTurn === state.playerCharacter;
-  const isPlayerEevee = state.playerCharacter === "eevee";
-  const flip = (isPlayerTurn && isPlayerEevee) || (!isPlayerTurn && state.rivalCharacter === "eevee");
+  const flip = (isPlayerTurn && state.playerCharacter === "mewtwo") ||
+               (!isPlayerTurn && state.rivalCharacter === "mewtwo");
 
   if (flip) {
     ctx.save();
     ctx.scale(-1, 1);
     ctx.drawImage(
-      sprites.aire,
-      effectFrame * fw, sy, fw, fh,
-      -dx - displayW, dy,
-      displayW, displayH
+      sprites.kame,
+      0, effectFrame * fh,
+      fw, fh,
+      -dx - fw, dy,
+      fw, fh
     );
     ctx.restore();
   } else {
     ctx.drawImage(
-      sprites.aire,
-      effectFrame * fw, sy, fw, fh,
+      sprites.kame,
+      0, effectFrame * fh,
+      fw, fh,
       dx, dy,
-      displayW, displayH
+      fw, fh
     );
   }
 
-  if (advanceEffectFrame(totalFrames)) endEffect();
+  if (advanceEffectFrame(30)) endEffect();
   break;
 }
-
-
-
 
 
 

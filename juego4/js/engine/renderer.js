@@ -23,9 +23,10 @@ function drawCharacter(character) {
   const isPlayer = character === state.playerCharacter;
 
   // ✅ Nueva lógica: invertir imagen si personaje jugador está a la izquierda
-  const shouldFlip =
-    (["gyarados", "arceus", "eevee"].includes(character) && isPlayer) ||
-    (character === "pikachu" && !isPlayer);
+const shouldFlip =
+  (["gyarados", "arceus", "eevee", "charmander", "mewtwo"].includes(character) && character === state.playerCharacter);
+
+
 
   ctx.save();
 
